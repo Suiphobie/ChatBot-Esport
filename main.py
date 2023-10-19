@@ -49,7 +49,10 @@ def get_gpt3_suggestion(q1, q2, q3, q4, q5):
     input_text = f"Sur la base de ces préférences sportives : {q1}, {q2}, {q3}, {q4}, {q5}, quel jeu ou compétition E-Sport recommanderiez-vous?"
 
     # Faites une requête à GPT-3
-    response = openai.Completion.create(engine="davinci", prompt=input_text, max_tokens=100)
+    response = openai.ChatCompletion.create(engine="gpt-3.5-turbo", messages=[
+        {"role": "system", "content": "Tu es un assistant qui recommande des jeux e-sportif"},
+        {"role": "user", "content": "Sur la base de ces préférences sportives : Individuel (e.g., tennis, athlétisme), 'Action rapide et continue (e.g., basketball, hockey)', 'Stratégie et tactique (e.g., échecs, snooker)', 'Extérieur (e.g., football, rugby)', 'Je discute avec des amis ou en ligne', quel jeu ou compétition E-Sport recommanderiez-vous?"},
+        {"role": "assistant", "content": "Starcraft 2 et ses compétitions pourraient vous intéressez."}], max_tokens=100)
 
     # Récupérez et renvoyez la réponse de GPT-3
     suggestion = response.choices[0].text.strip()
