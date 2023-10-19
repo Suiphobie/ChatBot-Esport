@@ -55,7 +55,7 @@ def get_gpt3_suggestion(q1, q2, q3, q4, q5):
         {"role": "assistant", "content": "Starcraft 2 et ses compétitions pourraient vous intéressez."}], max_tokens=100)
 
     # Récupérez et renvoyez la réponse de GPT-3
-    suggestion = response.choices[0].text.strip()
+    suggestion = response["choices"][0]["message"]["content"].strip()
     return suggestion
 
 
