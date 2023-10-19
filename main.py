@@ -1,4 +1,7 @@
 import streamlit as st
+import openai
+import os
+
 
 def main():
     st.title("Trouver votre jeu ou compétition E-Sport basé sur vos préférences sportives")
@@ -37,10 +40,22 @@ def main():
         suggestion = get_gpt3_suggestion(q1, q2, q3, q4, q5)
         st.write(f"Vous devriez essayer: {suggestion}")
 
+
+# Initialisez la clé API d'OpenAI (remplacez YOUR_API_KEY par votre clé)
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
 def get_gpt3_suggestion(q1, q2, q3, q4, q5):
-    # Cette fonction fera l'intégration avec GPT-3
-    # Pour l'instant, elle renvoie une suggestion fictive
-    return "Jeu fictif"
+    # Formatez les questions en une seule chaîne pour la passer à GPT-3
+    input_text = f"Sur la base de ces préférences sportives : {q1}, {q2}, {q3}, {q4}, {q5}, quel jeu ou compétition E-Sport recommanderiez-vous?"
+
+    # Faites une requête à GPT-3
+    response = openai.Completion.create(engine="davinci", prompt=input_text, max_tokens=100)
+
+    # Récupérez et renvoyez la réponse de GPT-3
+    suggestion = response.choices[0].text.strip()
+    return suggestion
+
+
 
 if __name__ == "__main__":
     main()
